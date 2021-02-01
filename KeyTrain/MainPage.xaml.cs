@@ -10,12 +10,6 @@ namespace KeyTrain
 {
 	public sealed partial class MainPage : Page
 	{
-		private enum Mode
-		{
-			Slow,
-			Fast
-		}
-
 		private const int COUNT = 50;
 
 		private readonly int _maxIndex = COUNT;
@@ -27,7 +21,6 @@ namespace KeyTrain
 
 		private bool _delay;
 		private bool _hasErrors;
-		private Mode _typeMode;
 
 		public MainPage()
 		{
@@ -36,7 +29,6 @@ namespace KeyTrain
 			(_tops, _bots) = Helper.InitGridContainer<TextBlock>(COUNT, container, topStyle, botStyle);
 
 			Reset();
-			TypeMode = Mode.Slow;
 
 			Window.Current.Content.KeyUp += OnKeyUp;
 		}
@@ -52,16 +44,6 @@ namespace KeyTrain
 					Reset();
 				else
 					Grid.SetColumn(caret, value);
-			}
-		}
-
-		private Mode TypeMode
-		{
-			get => _typeMode;
-			set
-			{
-				_typeMode = value;
-				status.Text = $"Mode: {_typeMode} (F1)";
 			}
 		}
 
@@ -94,15 +76,12 @@ namespace KeyTrain
 				case VirtualKey.Escape:
 					Application.Current.Exit();
 					break;
-				case VirtualKey.F1:
-					TypeMode = TypeMode == Mode.Slow ? Mode.Fast : Mode.Slow;
-					break;
 				case VirtualKey.Enter:
 					Reset();
 					e.Handled = true;
 					break;
 				default:
-					inputBox.Focus(FocusState.Keyboard);
+					ResetFocus();
 					break;
 			}
 		}
@@ -130,17 +109,7 @@ namespace KeyTrain
 				_hasErrors = true;
 				_bots[Index].Text = input;
 
-				if (TypeMode == Mode.Fast)
-				{
-					_bots[Index].Foreground = incorrectBrush;
-					caret.Background = caretGreenBrush;
-
-					await MoveCaretAsync();
-				}
-				else
-				{
-					caret.Background = caretRedBrush;
-				}
+				caret.Background = caretRedBrush;
 			}
 
 			inputBox.Text = string.Empty;
@@ -184,6 +153,11 @@ namespace KeyTrain
 		private void InputBox_Paste(object sender, TextControlPasteEventArgs e)
 		{
 			e.Handled = true;
+		}
+
+		private void ResetFocus()
+		{
+			inputBox?.Focus(FocusState.Keyboard);
 		}
 	}
 }
