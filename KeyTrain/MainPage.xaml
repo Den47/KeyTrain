@@ -4,20 +4,20 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      RequestedTheme="Light"
       mc:Ignorable="d">
 
     <Page.Resources>
         <SolidColorBrush x:Name="caretGreenBrush" Color="PaleGreen" />
         <SolidColorBrush x:Name="caretRedBrush" Color="LightPink" />
 
-        <SolidColorBrush x:Name="incorrectBrush" Color="Red" />
-        <SolidColorBrush x:Name="correctBrush" Color="Blue" />
+        <SolidColorBrush x:Name="correctBrush" Color="{ThemeResource SystemAccentColorLight1}" />
         <SolidColorBrush x:Name="perfectBrush" Color="Green" />
 
         <Style x:Name="topStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Consolas" />
             <Setter Property="FontSize" Value="18" />
-            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
@@ -45,6 +45,15 @@
 
             <Border x:Name="caret" Grid.Row="2" />
         </Grid>
+
+        <ComboBox x:Name="themeComboBox"
+                  Margin="10"
+                  VerticalAlignment="Top"
+                  Header="Theme"
+                  SelectionChanged="ThemeComboBox_SelectionChanged">
+            <ComboBoxItem IsSelected="True">Light</ComboBoxItem>
+            <ComboBoxItem>Dark</ComboBoxItem>
+        </ComboBox>
 
         <TextBlock x:Name="status" VerticalAlignment="Bottom" />
 

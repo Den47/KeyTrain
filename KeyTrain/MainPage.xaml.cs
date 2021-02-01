@@ -1,4 +1,5 @@
 ﻿using KeyTrain.Classes;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.System;
@@ -153,6 +154,12 @@ namespace KeyTrain
 		private void InputBox_Paste(object sender, TextControlPasteEventArgs e)
 		{
 			e.Handled = true;
+		}
+
+		private void ThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			RequestedTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), ((ComboBoxItem)themeComboBox.SelectedItem).Content.ToString());
+			ResetFocus();
 		}
 
 		private void ResetFocus()
